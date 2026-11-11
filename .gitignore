@@ -1,0 +1,5 @@
+work/
+outputs/
+_site/
+.DS_Store
+Thumbs.db
