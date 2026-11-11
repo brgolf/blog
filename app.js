@@ -34,11 +34,11 @@ function route(){
     if(post){const list=photos(post);article.innerHTML=`<a class="back" href="#journal">← 제품·작업 목록</a><p class="eyebrow">${esc(post.type)} ${esc(post.date)}</p><h1>${esc(post.title)}</h1><p class="detail-intro">${esc(post.description)}</p><div class="detail-action">${callLink(post,'detail-top','text-link')}<span>0507-1390-5980</span></div>${post.sample?'<p class="sample-note">구성을 보여주는 예시입니다. 실제 제품 정보와 작업 사진은 등록 예정입니다.</p>':''}<div class="photo-gallery">${list.length?list.map((photo,i)=>`<figure><button class="gallery-open" type="button" data-photo="${i}" aria-label="${esc(photo.alt||'사진')} 크게 보기">${imageMarkup({...photo,thumbnail:null})}<span>크게 보기 ↗</span></button><figcaption>${esc(photo.alt)}</figcaption></figure>`).join(''):placeholder(post,'detail-placeholder')}</div><h2 class="info-heading">${post.type==='작업사례'?'작업 정보':'제품 정보'}</h2><dl class="specs">${post.specs.map(([key,value])=>`<div><dt>${esc(key)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl><div class="body"></div>${processMarkup(post)}${inquiry(post)}<a class="text-link" href="#visit">주소·영업시간·주차 안내 보기 ↗</a>`;article.querySelector('.body').textContent=post.body;
       article.querySelectorAll('[data-photo]').forEach(button=>button.addEventListener('click',()=>openPhoto(list[Number(button.dataset.photo)])));
       article.querySelectorAll('[data-step-src]').forEach(button=>button.addEventListener('click',()=>openPhoto({src:button.dataset.stepSrc,alt:button.dataset.stepAlt})));
-      document.title=`${post.title} | 바른골프피팅`;
-    }else{article.innerHTML='<h1>글을 찾을 수 없습니다.</h1><a class="text-link" href="#journal">제품·작업 목록으로</a>';document.title='글을 찾을 수 없습니다 | 바른골프피팅';}
+      document.title=`${post.title} | 바른골프피팅센터 동래점`;
+    }else{article.innerHTML='<h1>글을 찾을 수 없습니다.</h1><a class="text-link" href="#journal">제품·작업 목록으로</a>';document.title='글을 찾을 수 없습니다 | 바른골프피팅센터 동래점';}
     window.scrollTo(0,0);
   }else{
-    document.title='바른골프피팅 | 제품과 작업 이야기';
+    document.title='바른골프피팅센터 동래점 | 제품과 작업 이야기';
     if(['#products','#work'].includes(location.hash)){category=location.hash==='#products'?'제품정보':'작업사례';topicId='';search.value='';}
     render();
     const target=['#products','#work'].includes(location.hash)?'journal':location.hash.slice(1);
@@ -67,6 +67,6 @@ if(/^G-[A-Z0-9]+$/.test(siteSettings.analyticsId||'')){
   window.gtag('js',new Date());window.gtag('config',siteSettings.analyticsId,{send_page_view:false});
   const script=document.createElement('script');script.async=true;script.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(siteSettings.analyticsId);document.head.append(script);
 }
-document.addEventListener('click',e=>{const link=e.target.closest?.('a[href^="tel:"]');if(!link)return;const detail={post_id:link.dataset.postId||'',placement:link.dataset.placement||'general'};document.dispatchEvent(new CustomEvent('phone-inquiry',{detail}));if(typeof window.gtag==='function')window.gtag('event','phone_click',detail);});
+document.addEventListener('click',e=>{const link=e.target.closest?.('a[href^="tel:"]');if(!link)return;const detail={post_id:link.dataset.postId||'',placement:link.dataset.placement||'general',service:link.dataset.service||''};document.dispatchEvent(new CustomEvent('phone-inquiry',{detail}));if(typeof window.gtag==='function')window.gtag('event','phone_click',detail);});
 document.querySelector('#year').textContent=new Date().getFullYear();
 window.addEventListener('hashchange',route);route();
