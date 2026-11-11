@@ -47,7 +47,7 @@ function route(){
     }else{article.innerHTML='<h1>글을 찾을 수 없습니다.</h1><a class="text-link" href="#journal">제품·작업 목록으로</a>';document.title='글을 찾을 수 없습니다 | 바른골프피팅센터 동래점';}
     window.scrollTo(0,0);
   }else{
-    document.title='바른골프피팅센터 동래점 | 제품과 작업 이야기';
+    document.title='바른골프피팅센터 동래점 | 맞춤클럽제작·분석·수리';
     if(['#products','#work'].includes(location.hash)){category=location.hash==='#products'?'제품정보':'작업사례';topicId='';search.value='';}
     render();
     const target=['#products','#work'].includes(location.hash)?'journal':location.hash.slice(1);
@@ -63,8 +63,7 @@ document.addEventListener('error',e=>{if(e.target.tagName==='IMG'){if(e.target.i
 const dialog=document.querySelector('#lightbox');
 dialog.querySelector('.lightbox-close').addEventListener('click',()=>dialog.close());
 dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
-const first=posts.find(p=>photos(p).length);
-document.querySelector('#hero-visual').innerHTML=first?`<a href="#post/${encodeURIComponent(first.id)}">${imageMarkup({...photos(first)[0],thumbnail:null},'',true)}<span class="hero-photo-caption">${esc(first.title)} ↗</span></a>`:`${placeholder({type:'제품·작업'})}<span class="hero-photo-caption">PRODUCT / DETAIL / PROCESS</span>`;
+// 메인 첫 화면은 다섯 가지 서비스 안내를 우선합니다. 사진은 글 목록과 상세에서 보여줍니다.
 const facts=[['주소',siteSettings.address],['영업시간',siteSettings.hours],['휴무일',siteSettings.holidays],['주차',siteSettings.parking],['예약',siteSettings.reservation]];
 document.querySelector('#visit-facts').innerHTML=`<dl class="visit-facts">${facts.filter(([,value])=>value).map(([key,value])=>`<div><dt>${key}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>`;
 if(siteSettings.mapUrl?.startsWith('https://')){const map=document.querySelector('#map-link');map.href=siteSettings.mapUrl;}
